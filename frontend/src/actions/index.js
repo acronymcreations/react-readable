@@ -4,6 +4,7 @@ export const REMOVE_POST = 'REMOVE_POST'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 export const EDIT_POST = 'EDIT_POST'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
+export const ADD_CATEGORY = 'ADD_CATEGORY'
 
 export function addPost({author, title, body, category, id}) {
   return {
@@ -26,5 +27,13 @@ export function addComment({author, body, id, parentId}) {
     parentId,
     timestamp: Date.now(),
     parentDeleted: false
+  }
+}
+
+export function addCategory({name, path}) {
+  return{
+    type: ADD_CATEGORY,
+    name,
+    path,
   }
 }

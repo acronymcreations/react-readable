@@ -17,7 +17,6 @@ export const getPosts = () => {
 
 export const getComments = (id) => {
   const u = `${URL}posts/${id}/comments`
-  console.log(u)
   return fetch(u, { headers: headers} )
     .then( res => res.text() )
     .then((data) => JSON.parse(data))
