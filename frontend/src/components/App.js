@@ -13,14 +13,12 @@ function test () {
 let a = {}
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categories: '',
+    state = {
+      categories: {},
       sort_by: 'sortByDate',
-      posts: []
+      posts: [],
+      comments: []
     }
-  }
 
 
 
@@ -43,7 +41,7 @@ class App extends Component {
     let body = 'body'
     let category = 'category'
     let id = 'fskjghsk'
-    this.props.createPost(author, title, body, category, id)
+    this.props.createPost({author, title, body, category, id})
   }
 
   render() {
@@ -63,8 +61,13 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(posts){
-  return posts
+function mapStateToProps(data){
+  // console.log('map', Object.keys(data.categories))
+  return {
+    posts: data.posts,
+    categories: data.categories,
+    comments: data.comments,
+  }
 }
 
 function mapDispachToProps(dispatch){

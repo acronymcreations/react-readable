@@ -13,9 +13,10 @@ function post(state = s, action){
   switch (action.type){
     case ADD_POST:
       const {author, title, body, category, id, timestamp} = action
-      let p = {author: author, title, body, category, id, timestamp}
-      console.log(action)
-      state = state['posts'].push({author, title, body, category, id, timestamp})
+      let p = {author, title, body, category, id, timestamp}
+      console.log('ss', state['posts'])
+      state['posts'].push(p)
+      console.log('ss', state)
       return state
     default:
       return state
