@@ -11,13 +11,20 @@ class Post extends Component{
       return 1;
     }
   }
+  // {this.props.posts.sort(this.props.sort).map(p =>
+  //   <h4>{p['title']}</h4>
+  // )}
+  // {this.props.posts.map(p => p.title)}
+
+  componentDidMount(){
+    console.log('Post component', this.props.posts.length)
+  }
 
   render() {
     return (
       <div>
-        {this.props.posts.sort(this.props.sort).map(p =>
-          <h4>{p['title']}</h4>
-        )}
+        hello
+        {this.props.posts.map(p => p.title)}
       </div>
     );
   }

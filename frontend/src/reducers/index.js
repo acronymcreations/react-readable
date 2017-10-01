@@ -5,12 +5,6 @@ import {
   ADD_CATEGORY,
 } from '../actions'
 
-const s = {
-  categories: {},
-  posts: [],
-  comments: []
-}
-
 function post(state = [], action){
   switch (action.type){
     case ADD_POST:
@@ -22,6 +16,18 @@ function post(state = [], action){
       return state
   }
 }
+
+// function post(state = {post: []}, action){
+//   switch (action.type){
+//     case ADD_POST:
+//       const {author, title, body, category, id, timestamp} = action
+//       let p = {author, title, body, category, id, timestamp}
+//       state.post.push(p)
+//       return state
+//     default:
+//       return state
+//   }
+// }
 
 function comment(state = [], action){
   switch (action.type){
@@ -46,6 +52,8 @@ function categories(state = [], action){
       return state
   }
 }
+
+// export default post
 
 export default combineReducers({
   post,

@@ -6,37 +6,40 @@ import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
 import {addPost, addComment, addCategory} from '../actions'
 
-function test () {
-  console.log("test worked");
-}
-
 class App extends Component {
     state = {
-      categories: [],
       sort_by: 'sortByDate',
-      posts: [],
-      comments: []
     }
 
   componentDidMount() {
-    API.getCategories().then( (cat) => {
-      let list = cat['categories']
-      for(var i in list){
-        this.props.createCategory(list[i])
-      }
-
-    })
-    API.getPosts().then( (posts) => {
-      for(var i in posts){
-        this.props.createPost(posts[i])
-        API.getComments(posts[i].id).then( (comments) => {
-          console.log(comments);
-          for(var j in comments){
-            this.props.createComment(comments[j])
-          }
-        })
-      }
-    })
+    let p = {
+      author: 'thingtwo',
+      title: 'Udacity is the best place to learn React',
+      body: 'Everyone says so after all.',
+      category: 'react',
+      id: '8xf0y6ziyjabvozdd253nd',
+      timestamp: 1506895847426
+    }
+    this.props.createPost(p)
+    this.props.createCategory({name: 'read', path: 'read'})
+    // API.getCategories().then( (cat) => {
+    //   let list = cat['categories']
+    //   for(var i in list){
+    //     // console.log(list[i])
+    //     this.props.createCategory(list[i])
+    //   }
+    //
+    // })
+    // API.getPosts().then( (posts) => {
+    //   for(var i in posts){
+    //     this.props.createPost(posts[i])
+    //     API.getComments(posts[i].id).then( (comments) => {
+    //       for(var j in comments){
+    //         this.props.createComment(comments[j])
+    //       }
+    //     })
+    //   }
+    // })
   }
 
   render() {
@@ -48,19 +51,18 @@ class App extends Component {
         </div>
         <div className='App-body'>
           <h3>Posts</h3>
-          <Post posts={this.props.posts} sort={this.state.sort_by}/>
+          {this.props.post}
+          <Post posts={this.props.post} sort={this.state.sort_by}/>
         </div>
       </div>
     );
   }
 }
 
-function mapStateToProps(data){
-  console.log('map', data)
+function mapStateToProps({post, comment, categories}){
+  console.log('map', typeof(post))
   return {
-    posts: data.post,
-    categories: data.categories,
-    comments: data.comment,
+    post: post
   }
 }
 
