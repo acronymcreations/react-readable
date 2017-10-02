@@ -6,7 +6,7 @@ export const EDIT_POST = 'EDIT_POST'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const ADD_CATEGORY = 'ADD_CATEGORY'
 
-export function addPost({author, title, body, category, id}) {
+export function addPost({author, title, body, category, id, timestamp, voteScore, deleted}) {
   return {
     type: ADD_POST,
     author,
@@ -14,19 +14,23 @@ export function addPost({author, title, body, category, id}) {
     body,
     category,
     id,
-    timestamp: Date.now()
+    timestamp,
+    voteScore,
+    deleted
   }
 }
 
-export function addComment({author, body, id, parentId}) {
+export function addComment({author, body, deleted, id, parentDeleted, parentId, timestamp, voteScore}) {
   return {
     type: ADD_COMMENT,
     author,
     body,
+    deleted,
     id,
+    parentDeleted,
     parentId,
-    timestamp: Date.now(),
-    parentDeleted: false
+    timestamp,
+    voteScore
   }
 }
 

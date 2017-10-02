@@ -8,8 +8,8 @@ import {
 function post(state = [], action){
   switch (action.type){
     case ADD_POST:
-      const {author, title, body, category, id, timestamp} = action
-      let p = {author, title, body, category, id, timestamp}
+      const {author, title, body, category, id, timestamp, voteScore, deleted} = action
+      let p = {author, title, body, category, id, timestamp, voteScore, deleted}
       var new_array = []
       for(var i in state){
         new_array.push(state[i])
@@ -24,8 +24,8 @@ function post(state = [], action){
 function comment(state = [], action){
   switch (action.type){
     case ADD_COMMENT:
-      const {author, body, id, parentId, timestamp, parentDeleted} = action
-      let c = {author, body, id, parentId, timestamp, parentDeleted}
+      const {author, body, deleted, id, parentDeleted, parentId, timestamp, voteScore} = action
+      let c = {author, body, deleted, id, parentDeleted, parentId, timestamp, voteScore}
       var new_array = []
       for(var i in state){
         new_array.push(state[i])

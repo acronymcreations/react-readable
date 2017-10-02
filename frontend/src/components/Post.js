@@ -7,13 +7,13 @@ class Post extends Component{
   }
 
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     return (
       <div>
         <ul>
         {this.props.posts.map( p => {
           return (
-            <li>
+            <li key={p.id}>
               <strong>{p.title}</strong> by {p.author}
             </li>
           )

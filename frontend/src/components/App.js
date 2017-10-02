@@ -6,20 +6,29 @@ import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
 import {addPost, addComment, addCategory} from '../actions'
 
+function sortByDate (a, b) {
+  if(a['timestamp'] === b['timestamp']){
+    return 0;
+  }else if(a['timestamp'] > b['timestamp']){
+    return -1;
+  }else{
+    return 1;
+  }
+}
+
+function sortByScore (a, b) {
+  if(a['voteScore'] === b['voteScore']){
+    return 0;
+  }else if(a['voteScore'] > b['voteScore']){
+    return -1;
+  }else{
+    return 1;
+  }
+}
+
 class App extends Component {
   state = {
-    sort_by: 'sortByDate',
-  }
-
-  sortByDate = (a, b) => {
-    console.log('sorting')
-    if(a['timestamp'] === b['timestamp']){
-      return 0;
-    }else if(a['timestamp'] > b['timestamp']){
-      return -1;
-    }else{
-      return 1;
-    }
+    sort_by: 'date',
   }
 
   componentDidMount() {
@@ -53,8 +62,25 @@ class App extends Component {
           <h1>Readable</h1>
         </div>
         <div className='App-body'>
-          <h3>Posts</h3>
-          <Post posts={this.props.posts.sort(this.state.sort_by)} sort={this.state.sort_by}/>
+          <h2>Posts</h2>
+
+          {this.state.sort_by === 'date' && (
+            <div>
+              <a href="#score" onClick={() => this.setState({sort_by: 'score'})}>
+                Sort by Popularity
+              </a>
+              <Post posts={this.props.posts.sort(sortByDate)}/>
+            </div>
+          )}
+          {this.state.sort_by === 'score' && (
+            <div>
+              <a href="#score" onClick={() => this.setState({sort_by: 'date'})}>
+                Sort by Date
+              </a>
+              <Post posts={this.props.posts.sort(sortByScore)}/>
+            </div>
+          )}
+
         </div>
       </div>
     );
@@ -62,9 +88,6 @@ class App extends Component {
 }
 
 function mapStateToProps({post, comment, categories}){
-  for(var i in post){
-    post[i]['key'] = post[i].id
-  }
   return {
     posts: post,
     comments: comment,
