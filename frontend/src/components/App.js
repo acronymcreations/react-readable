@@ -7,43 +7,46 @@ import {connect} from 'react-redux'
 import {addPost, addComment, addCategory} from '../actions'
 
 class App extends Component {
-    state = {
-      sort_by: 'sortByDate',
+  state = {
+    sort_by: 'sortByDate',
+  }
+
+  sortByDate = (a, b) => {
+    console.log('sorting')
+    if(a['timestamp'] === b['timestamp']){
+      return 0;
+    }else if(a['timestamp'] > b['timestamp']){
+      return -1;
+    }else{
+      return 1;
     }
+  }
 
   componentDidMount() {
-    let p = {
-      author: 'thingtwo',
-      title: 'Udacity is the best place to learn React',
-      body: 'Everyone says so after all.',
-      category: 'react',
-      id: '8xf0y6ziyjabvozdd253nd',
-      timestamp: 1506895847426
+    if(this.props.categories.length === 0){
+      API.getCategories().then( (cat) => {
+        let list = cat['categories']
+        for(var i in list){
+          this.props.createCategory(list[i])
+        }
+      })
     }
-    this.props.createPost(p)
-    this.props.createCategory({name: 'read', path: 'read'})
-    // API.getCategories().then( (cat) => {
-    //   let list = cat['categories']
-    //   for(var i in list){
-    //     // console.log(list[i])
-    //     this.props.createCategory(list[i])
-    //   }
-    //
-    // })
-    // API.getPosts().then( (posts) => {
-    //   for(var i in posts){
-    //     this.props.createPost(posts[i])
-    //     API.getComments(posts[i].id).then( (comments) => {
-    //       for(var j in comments){
-    //         this.props.createComment(comments[j])
-    //       }
-    //     })
-    //   }
-    // })
+    if(this.props.posts.length === 0){
+      API.getPosts().then( (posts) => {
+        for(var i in posts){
+          this.props.createPost(posts[i])
+          API.getComments(posts[i].id).then( (comments) => {
+            for(var j in comments){
+              this.props.createComment(comments[j])
+            }
+          })
+        }
+      })
+    }
   }
 
   render() {
-    console.log('props',this.props)
+    // console.log(this.props)
     return (
       <div>
         <div className="App-header">
@@ -51,8 +54,7 @@ class App extends Component {
         </div>
         <div className='App-body'>
           <h3>Posts</h3>
-          {this.props.post}
-          <Post posts={this.props.post} sort={this.state.sort_by}/>
+          <Post posts={this.props.posts.sort(this.state.sort_by)} sort={this.state.sort_by}/>
         </div>
       </div>
     );
@@ -60,9 +62,13 @@ class App extends Component {
 }
 
 function mapStateToProps({post, comment, categories}){
-  console.log('map', typeof(post))
+  for(var i in post){
+    post[i]['key'] = post[i].id
+  }
   return {
-    post: post
+    posts: post,
+    comments: comment,
+    categories: categories
   }
 }
 

@@ -10,32 +10,28 @@ function post(state = [], action){
     case ADD_POST:
       const {author, title, body, category, id, timestamp} = action
       let p = {author, title, body, category, id, timestamp}
-      state.push(p)
-      return state
+      var new_array = []
+      for(var i in state){
+        new_array.push(state[i])
+      }
+      new_array.push(p)
+      return new_array
     default:
       return state
   }
 }
-
-// function post(state = {post: []}, action){
-//   switch (action.type){
-//     case ADD_POST:
-//       const {author, title, body, category, id, timestamp} = action
-//       let p = {author, title, body, category, id, timestamp}
-//       state.post.push(p)
-//       return state
-//     default:
-//       return state
-//   }
-// }
 
 function comment(state = [], action){
   switch (action.type){
     case ADD_COMMENT:
       const {author, body, id, parentId, timestamp, parentDeleted} = action
       let c = {author, body, id, parentId, timestamp, parentDeleted}
-      state.push(c)
-      return state
+      var new_array = []
+      for(var i in state){
+        new_array.push(state[i])
+      }
+      new_array.push(c)
+      return new_array
     default:
       return state
   }
@@ -46,8 +42,12 @@ function categories(state = [], action){
     case ADD_CATEGORY:
       const {name, path} = action
       let cat = {name, path}
-      state.push(cat)
-      return state
+      var new_array = []
+      for(var i in state){
+        new_array.push(state[i])
+      }
+      new_array.push(cat)
+      return new_array
     default:
       return state
   }
