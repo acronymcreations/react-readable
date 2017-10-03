@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Post extends Component{
+class PostList extends Component{
 
   componentDidMount(){
     // console.log('Post component', this.props.posts.length)
@@ -24,4 +24,4 @@ class Post extends Component{
   }
 }
 
-export default Post;
+export default PostList;

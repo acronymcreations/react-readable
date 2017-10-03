@@ -1,35 +1,14 @@
 import React, { Component } from 'react';
 // import {Link, Route} from 'react-router-dom'
 import './../App.css';
-import Post from './Post'
+// import Post from './Post'
+import Home from './Home'
 import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
 import {addPost, addComment, addCategory} from '../actions'
-
-function sortByDate (a, b) {
-  if(a['timestamp'] === b['timestamp']){
-    return 0;
-  }else if(a['timestamp'] > b['timestamp']){
-    return -1;
-  }else{
-    return 1;
-  }
-}
-
-function sortByScore (a, b) {
-  if(a['voteScore'] === b['voteScore']){
-    return 0;
-  }else if(a['voteScore'] > b['voteScore']){
-    return -1;
-  }else{
-    return 1;
-  }
-}
+import {Link, Route} from 'react-router-dom'
 
 class App extends Component {
-  state = {
-    sort_by: 'date',
-  }
 
   componentDidMount() {
     if(this.props.categories.length === 0){
@@ -62,25 +41,7 @@ class App extends Component {
           <h1>Readable</h1>
         </div>
         <div className='App-body'>
-          <h2>Posts</h2>
-
-          {this.state.sort_by === 'date' && (
-            <div>
-              <a href="#score" onClick={() => this.setState({sort_by: 'score'})}>
-                Sort by Popularity
-              </a>
-              <Post posts={this.props.posts.sort(sortByDate)}/>
-            </div>
-          )}
-          {this.state.sort_by === 'score' && (
-            <div>
-              <a href="#score" onClick={() => this.setState({sort_by: 'date'})}>
-                Sort by Date
-              </a>
-              <Post posts={this.props.posts.sort(sortByScore)}/>
-            </div>
-          )}
-
+          <Route exact path='/' component={Home}/>
         </div>
       </div>
     );
