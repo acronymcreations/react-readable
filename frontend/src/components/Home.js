@@ -32,6 +32,7 @@ class Home extends Component {
   }
 
   render() {
+    // console.log(this.state)
     // console.log(this.props)
     return (
       <div>
@@ -57,7 +58,8 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps({post, comment, categories}){
+function mapStateToProps({post, comment, categories}, ownProps){
+  // console.log('ownProps home', post)
   return {
     posts: post,
     comments: comment,

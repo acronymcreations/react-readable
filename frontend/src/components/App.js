@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 // import {Link, Route} from 'react-router-dom'
 import './../App.css';
-// import Post from './Post'
+import Post from './Post'
 import Home from './Home'
 import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
 import {addPost, addComment, addCategory} from '../actions'
-import {Link, Route} from 'react-router-dom'
+import {Route, withRouter} from 'react-router-dom'
 
 class App extends Component {
 
   componentDidMount() {
     if(this.props.categories.length === 0){
+      console.log('called API')
       API.getCategories().then( (cat) => {
         let list = cat['categories']
         for(var i in list){
@@ -41,14 +42,18 @@ class App extends Component {
           <h1>Readable</h1>
         </div>
         <div className='App-body'>
-          <Route exact path='/' component={Home}/>
+          <Route exact path='/' render={() => (
+            <Home posts={this.props.posts}/>
+          )}/>
+          <Route path='/post/:postid' component={Post}/>
         </div>
       </div>
     );
   }
 }
 
-function mapStateToProps({post, comment, categories}){
+function mapStateToProps({post, comment, categories}, ownProps){
+  // console.log('ownProps app', ownProps)
   return {
     posts: post,
     comments: comment,
@@ -65,4 +70,4 @@ function mapDispachToProps(dispatch){
 }
 
 
-export default connect(mapStateToProps, mapDispachToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispachToProps)(App));

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom'
 
 class PostList extends Component{
 
@@ -7,14 +8,16 @@ class PostList extends Component{
   }
 
   render() {
-    // console.log(this.props)
+    // console.log(this.state)
     return (
       <div>
         <ul>
         {this.props.posts.map( p => {
           return (
             <li key={p.id}>
-              <strong>{p.title}</strong> by {p.author}
+              <Link to={{pathname: `/post/${p.id}`}}>
+                <strong>{p.title}</strong>
+              </Link> by {p.author}
             </li>
           )
         })}
@@ -23,5 +26,7 @@ class PostList extends Component{
     );
   }
 }
+
+// <Link to="ideas" params={{ testvalue: "hello" }}>Create Idea</Link>
 
 export default PostList;
