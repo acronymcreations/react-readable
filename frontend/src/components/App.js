@@ -6,20 +6,11 @@ import Home from './Home'
 import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
 import {addPost, addComment, addCategory} from '../actions'
-import {Route, withRouter} from 'react-router-dom'
+import {Route, withRouter, Link} from 'react-router-dom'
 
 class App extends Component {
 
   componentDidMount() {
-    if(this.props.categories.length === 0){
-      console.log('called API')
-      API.getCategories().then( (cat) => {
-        let list = cat['categories']
-        for(var i in list){
-          this.props.createCategory(list[i])
-        }
-      })
-    }
     if(this.props.posts.length === 0){
       API.getPosts().then( (posts) => {
         for(var i in posts){
@@ -32,18 +23,38 @@ class App extends Component {
         }
       })
     }
+    if(this.props.categories.length === 0){
+      console.log('called API')
+      API.getCategories().then( (cat) => {
+        let list = cat['categories']
+        for(var i in list){
+          this.props.createCategory(list[i])
+        }
+      })
+    }
   }
 
   render() {
     // console.log(this.props)
+    let categoriesList = this.props.categories.map(c => {
+      return(
+        <span key={c.path}>
+        <Link to={{pathname: `/${c.path}`}}>
+          {c.name}
+        </Link>&#8195;
+        </span>
+      )
+    })
     return (
       <div>
+
         <div className="App-header">
           <h1>Readable</h1>
+          <h3>{categoriesList}</h3>
         </div>
         <div className='App-body'>
           <Route exact path='/' render={() => (
-            <Home posts={this.props.posts}/>
+            <Home />
           )}/>
           <Route path='/post/:postid' component={Post}/>
         </div>

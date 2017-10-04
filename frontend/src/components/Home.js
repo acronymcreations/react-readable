@@ -6,25 +6,6 @@ import PostList from './PostList'
 import {connect} from 'react-redux'
 // import {addPost, addComment, addCategory} from '../actions'
 
-function sortByDate (a, b) {
-  if(a['timestamp'] === b['timestamp']){
-    return 0;
-  }else if(a['timestamp'] > b['timestamp']){
-    return -1;
-  }else{
-    return 1;
-  }
-}
-
-function sortByScore (a, b) {
-  if(a['voteScore'] === b['voteScore']){
-    return 0;
-  }else if(a['voteScore'] > b['voteScore']){
-    return -1;
-  }else{
-    return 1;
-  }
-}
 
 class Home extends Component {
   state = {
@@ -32,27 +13,25 @@ class Home extends Component {
   }
 
   render() {
-    // console.log(this.state)
-    // console.log(this.props)
     return (
       <div>
         <h2>Posts</h2>
         {this.state.sort_by === 'date' && (
           <div>
-            Sort by: Date <a href="#score" onClick={() => this.setState({sort_by: 'score'})}>
+            Sort by: Date <button onClick={() => this.setState({sort_by: 'score'})}>
               Popularity
-            </a>
-            <PostList posts={this.props.posts.sort(sortByDate)}/>
+            </button>
           </div>
         )}
         {this.state.sort_by === 'score' && (
           <div>
-            Sort by: <a href="#date" onClick={() => this.setState({sort_by: 'date'})}>
+            Sort by: <button onClick={() => this.setState({sort_by: 'date'})}>
               Date
-            </a> Popularity
-            <PostList posts={this.props.posts.sort(sortByScore)}/>
+            </button> Popularity
+
           </div>
         )}
+        <PostList sort_by={this.state.sort_by}/>
       </div>
     );
   }
