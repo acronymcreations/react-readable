@@ -1,11 +1,13 @@
 import {combineReducers} from 'redux'
-import {ADD_COMMENT} from '../actions/comment'
-import {ADD_POST, VOTE_POST} from '../actions/post'
-import {ADD_CATEGORY} from '../actions/category'
+import {
+  ADD_COMMENT,
+  ADD_POST,
+  ADD_CATEGORY,
+  VOTE_POST
+} from '../actions'
 
 function post(state = [], action){
   switch (action.type){
-
     case ADD_POST:
       const {author, title, body, category, id, timestamp, voteScore, deleted, commentCount} = action
       let p = {author, title, body, category, id, timestamp, voteScore, deleted, commentCount}
@@ -15,7 +17,6 @@ function post(state = [], action){
       }
       new_array.push(p)
       return new_array
-
     case VOTE_POST:
       const {postid, vote} = action
       var score_array = []
@@ -25,7 +26,6 @@ function post(state = [], action){
         return p
       })
       return score_array
-      
     default:
       return state
   }

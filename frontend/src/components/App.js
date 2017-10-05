@@ -5,7 +5,9 @@ import Post from './Post'
 import Home from './Home'
 import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
-import {addPost, addComment, addCategory} from '../actions'
+import {addPost} from '../actions/post'
+import {addCategory} from '../actions/category'
+import {addComment} from '../actions/comment'
 import {Route, withRouter, Link} from 'react-router-dom'
 
 class App extends Component {

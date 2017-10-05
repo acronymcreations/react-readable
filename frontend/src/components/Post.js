@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {votePost} from '../actions'
+import {votePost} from '../actions/post'
 
 class Post extends Component{
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {votePost} from '../actions'
+import {votePost} from '../actions/post'
 
 function sortByDate (a, b) {
   if(a['timestamp'] === b['timestamp']){
