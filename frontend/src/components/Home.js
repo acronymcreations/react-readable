@@ -28,7 +28,6 @@ class Home extends Component {
             Sort by: <button onClick={() => this.setState({sort_by: 'date'})}>
               Date
             </button> Popularity
-
           </div>
         )}
         <PostList sort_by={this.state.sort_by} category={this.props.category}/>

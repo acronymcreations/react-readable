@@ -46,15 +46,18 @@ class PostList extends Component{
         {this.props.posts.map( p => {
           return (
             <li key={p.id}>
-              <button onClick={() => this.votePost(p.id, 1)}>Up</button>
-              [{p.voteScore}]&#8195;
-              <button onClick={() => this.votePost(p.id, -1)}>Down</button>
-              <Link to={{pathname: `/post/${p.id}`}}>
+              <button onClick={() => this.votePost(p.id, 1)}>
+                <img src={require('../img/thumb_up.svg')} width='12' alt='Down Vote'/>
+              </button>
+              &#8195;{p.voteScore}&#8195;
+              <button onClick={() => this.votePost(p.id, -1)}>
+                <img src={require('../img/thumb_down.svg')} width='12' alt='Up Vote'/>
+              </button>
+              <Link to={{pathname: `/${p.category}/${p.id}`}}>
                 <strong>{p.title}</strong>
               </Link> by {p.author}&#8195;
               ({this.getCommentCount(p.id)}
               <img src={require('../img/chat-bubble.png')} alt='' width='15'/>)
-
             </li>
           )
         })}

@@ -57,15 +57,14 @@ class App extends Component {
     )
     return (
       <div>
-
         <div className="App-header">
           <h1>Readable</h1>
           <h3>{categoriesList}</h3>
         </div>
         <div className='App-body'>
           <Route exact path='/' component={Home}/>
-          <Route path='/post/:postid' component={Post}/>
-          <Route path='/:category' component={Home}/>
+          <Route exact path='/:category/:postid' component={Post}/>
+          <Route exact path='/:category' component={Home}/>
         </div>
       </div>
     );

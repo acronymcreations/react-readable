@@ -1,3 +1,10 @@
+@media screen and (min-width: 900px){
+	.App-body{
+		width: 900px;
+		margin: auto;
+	}
+}
+
 .App-header {
   text-align: center;
   background-color: #222;
@@ -6,6 +13,31 @@
   color: white;
 }
 
-.App-body{
-  padding: 25px;
+.post-title{
+  font-size: 28px;
+  text-align: center;
+}
+
+.post-author{
+  text-align: center;
+}
+
+.post-body{
+  padding-top: 35px;
+  padding-bottom: 25px;
+  font-size: 18px;
+}
+
+.vote-buttons{
+
+}
+
+.post-comments-title{
+  font-weight: bold;
+  padding-top: 35px;
+  padding-bottom: 20px;
+}
+
+.post-comment{
+  padding: 10px;
 }
