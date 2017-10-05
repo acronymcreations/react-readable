@@ -25,7 +25,7 @@ function sortByScore (a, b) {
 class PostList extends Component{
 
   componentDidMount(){
-    // console.log('Post component', this.props.posts.length)
+    console.log('Post component', this.props.category)
   }
 
   render() {
@@ -49,27 +49,21 @@ class PostList extends Component{
 }
 
 function mapStateToProps({post, comment, categories}, ownProps){
-    if(ownProps.sort_by === 'date'){
-      return {
-        posts: post.sort(sortByDate),
-        comments: comment,
-        categories: categories
-      }
+  var sortedPosts = []
+    if(ownProps.category)
+      post = post.filter((p) => p.category === ownProps.category)
+    if(ownProps.sort_by === 'date')
+      sortedPosts = post.sort(sortByDate)
+    else if(ownProps.sort_by === 'score')
+      sortedPosts = post.sort(sortByScore)
+    else
+      sortedPosts = post
+    return {
+      posts: sortedPosts,
+      comments: comment,
+      categories: categories
     }
-    else if(ownProps.sort_by === 'score'){
-      return {
-        posts: post.sort(sortByScore),
-        comments: comment,
-        categories: categories
-      }
-    }
-    else{
-      return {
-        posts: post,
-        comments: comment,
-        categories: categories
-      }
-    }
+
 }
 
 export default connect(mapStateToProps)(PostList);

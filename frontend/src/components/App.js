@@ -36,15 +36,27 @@ class App extends Component {
 
   render() {
     // console.log(this.props)
-    let categoriesList = this.props.categories.map(c => {
-      return(
-        <span key={c.path}>
-        <Link to={{pathname: `/${c.path}`}}>
-          {c.name}
+    var categoriesList = []
+    categoriesList.push(
+      <span key='all'>
+        <Link to={{pathname: '/'}}>
+          all
         </Link>&#8195;
-        </span>
-      )
-    })
+      </span>
+    )
+    categoriesList.push(
+      this.props.categories.map(c => {
+        return(
+          <span key={c.path}>
+          <Link to={{pathname: `/${c.path}`}}>
+            {c.name}
+          </Link>&#8195;
+          </span>
+        )
+      })
+    )
+
+    console.log(categoriesList)
     return (
       <div>
 
@@ -53,10 +65,9 @@ class App extends Component {
           <h3>{categoriesList}</h3>
         </div>
         <div className='App-body'>
-          <Route exact path='/' render={() => (
-            <Home />
-          )}/>
+          <Route exact path='/' component={Home}/>
           <Route path='/post/:postid' component={Post}/>
+          <Route path='/:category' component={Home}/>
         </div>
       </div>
     );

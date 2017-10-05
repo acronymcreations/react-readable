@@ -31,18 +31,18 @@ class Home extends Component {
 
           </div>
         )}
-        <PostList sort_by={this.state.sort_by}/>
+        <PostList sort_by={this.state.sort_by} category={this.props.category}/>
       </div>
     );
   }
 }
 
 function mapStateToProps({post, comment, categories}, ownProps){
-  // console.log('ownProps home', post)
   return {
     posts: post,
     comments: comment,
-    categories: categories
+    categories: categories,
+    category: ownProps.match.params.category
   }
 }
 
