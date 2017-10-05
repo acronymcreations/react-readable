@@ -1,4 +1,3 @@
-// import {combineReducers} from 'redux'
 import {ADD_CATEGORY} from '../actions/category'
 
 function categories(state = [], action){
