@@ -5,6 +5,8 @@ export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 export const EDIT_POST = 'EDIT_POST'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const ADD_CATEGORY = 'ADD_CATEGORY'
+export const VOTE_POST = 'VOTE_POST'
+
 
 export function addPost({author, title, body, category, id, timestamp, voteScore, deleted}) {
   return {
@@ -17,6 +19,14 @@ export function addPost({author, title, body, category, id, timestamp, voteScore
     timestamp,
     voteScore,
     deleted
+  }
+}
+
+export function votePost({postid, vote}){
+  return{
+    type: VOTE_POST,
+    postid,
+    vote
   }
 }
 

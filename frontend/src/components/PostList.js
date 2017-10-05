@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {votePost} from '../actions'
 
 function sortByDate (a, b) {
   if(a['timestamp'] === b['timestamp']){
@@ -25,7 +26,16 @@ function sortByScore (a, b) {
 class PostList extends Component{
 
   componentDidMount(){
-    console.log('Post component', this.props.category)
+
+  }
+
+  getCommentCount(postid) {
+    let comments = this.props.comments.filter(c => c.parentId === postid)
+    return comments.length
+  }
+
+  votePost(id, v) {
+    this.props.votePost({postid: id, vote: v})
   }
 
   render() {
@@ -35,10 +45,16 @@ class PostList extends Component{
         <ul>
         {this.props.posts.map( p => {
           return (
-            <li key={p.id}>[{p.voteScore}]&#8195;
+            <li key={p.id}>
+              <button onClick={() => this.votePost(p.id, 1)}>Up</button>
+              [{p.voteScore}]&#8195;
+              <button onClick={() => this.votePost(p.id, -1)}>Down</button>
               <Link to={{pathname: `/post/${p.id}`}}>
                 <strong>{p.title}</strong>
-              </Link> by {p.author}
+              </Link> by {p.author}&#8195;
+              ({this.getCommentCount(p.id)}
+              <img src={require('../img/chat-bubble.png')} alt='' width='15'/>)
+
             </li>
           )
         })}
@@ -66,4 +82,10 @@ function mapStateToProps({post, comment, categories}, ownProps){
 
 }
 
-export default connect(mapStateToProps)(PostList);
+function mapDispachToProps(dispatch){
+  return{
+    votePost: (data) => dispatch(votePost(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispachToProps)(PostList);

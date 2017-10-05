@@ -55,8 +55,6 @@ class App extends Component {
         )
       })
     )
-
-    console.log(categoriesList)
     return (
       <div>
 
