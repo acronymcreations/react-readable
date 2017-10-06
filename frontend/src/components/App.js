@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import {Link, Route} from 'react-router-dom'
+import '../bootstrap/css/bootstrap.min.css'
 import './../App.css';
 import Post from './Post'
 import Home from './Home'
@@ -56,6 +57,13 @@ class App extends Component {
           </span>
         )
       })
+    )
+    categoriesList.push(
+      <span key='new'>
+        <Link to={{pathname: '/'}}>
+          +
+        </Link>&#8195;
+      </span>
     )
     return (
       <div>

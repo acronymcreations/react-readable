@@ -46,12 +46,12 @@ class PostList extends Component{
         {this.props.posts.map( p => {
           return (
             <li key={p.id}>
-              <button onClick={() => this.votePost(p.id, 1)}>
-                <img src={require('../img/thumb_up.svg')} width='12' alt='Down Vote'/>
+              <button className='btn btn-default' onClick={() => this.votePost(p.id, 1)}>
+                <img className='thumb-img' src={require('../img/thumb_up.svg')} alt='Down Vote'/>
               </button>
               &#8195;{p.voteScore}&#8195;
-              <button onClick={() => this.votePost(p.id, -1)}>
-                <img src={require('../img/thumb_down.svg')} width='12' alt='Up Vote'/>
+              <button className='btn btn-default' onClick={() => this.votePost(p.id, -1)}>
+                <img className='thumb-img' src={require('../img/thumb_down.svg')} alt='Up Vote'/>
               </button>
               <Link to={{pathname: `/${p.category}/${p.id}`}}>
                 <strong>{p.title}</strong>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 // import {Link, Route} from 'react-router-dom'
-import './../App.css';
 import PostList from './PostList'
 // import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
+import Loading from 'react-loading'
 // import {addPost, addComment, addCategory} from '../actions'
 
 
@@ -18,14 +18,14 @@ class Home extends Component {
         <h2>Posts</h2>
         {this.state.sort_by === 'date' && (
           <div>
-            Sort by: Date <button onClick={() => this.setState({sort_by: 'score'})}>
+            Sort by: Date <button className='btn btn-default' onClick={() => this.setState({sort_by: 'score'})}>
               Popularity
             </button>
           </div>
         )}
         {this.state.sort_by === 'score' && (
           <div>
-            Sort by: <button onClick={() => this.setState({sort_by: 'date'})}>
+            Sort by: <button className='btn btn-default' onClick={() => this.setState({sort_by: 'date'})}>
               Date
             </button> Popularity
           </div>
