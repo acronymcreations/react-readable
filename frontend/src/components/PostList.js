@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {votePost} from '../actions/post'
+import {sendPostVote} from '../actions/post'
 import { Button } from 'react-bootstrap';
 
 function sortByDate (a, b) {
@@ -35,8 +35,8 @@ class PostList extends Component{
     return comments.length
   }
 
-  votePost(id, v) {
-    this.props.votePost({postid: id, vote: v})
+  votePost(postid, vote) {
+    this.props.sendPostVote({postid, vote})
   }
 
   render() {
@@ -48,13 +48,13 @@ class PostList extends Component{
           return (
             <li key={p.id}>
 
-              <Button bsStyle='success' onClick={() => this.votePost(p.id, 1)}>
+              <Button bsStyle='success' onClick={() => this.props.sendPostVote({postid: p.id, vote: 1})}>
                 <img className='thumb-img' src={require('../img/thumb_up.svg')} alt='Up Vote'/>
               </Button>
 
               &nbsp;{p.voteScore}&nbsp;
 
-              <Button bsStyle='danger' onClick={() => this.votePost(p.id, -1)}>
+              <Button bsStyle='danger' onClick={() => this.props.sendPostVote({postid: p.id, vote: -1})}>
                 <img className='thumb-img' src={require('../img/thumb_down.svg')} alt='Down Vote'/>
               </Button>
               &nbsp;
@@ -93,7 +93,7 @@ function mapStateToProps({post, comment, categories}, ownProps){
 
 function mapDispachToProps(dispatch){
   return{
-    votePost: (data) => dispatch(votePost(data))
+    sendPostVote: (data) => dispatch(sendPostVote(data))
   }
 }
 

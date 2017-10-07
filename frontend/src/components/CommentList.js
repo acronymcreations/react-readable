@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 // import Loading from 'react-loading'
 import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
-import {addComment, voteComment} from '../actions/comment'
+import {sendComment, sendCommentVote} from '../actions/comment'
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Col } from 'react-bootstrap';
 
 class CommentList extends Component{
@@ -42,7 +42,7 @@ class CommentList extends Component{
   }
 
   submitComment() {
-    this.props.createComment({
+    this.props.sendComment({
       author: this.state.author,
       body: this.state.comment,
       deleted: false,
@@ -53,7 +53,6 @@ class CommentList extends Component{
       voteScore: 1
     })
     this.setState({newCommentOpen: false, author: '', comment: ''})
-
   }
 
   render() {
@@ -66,13 +65,13 @@ class CommentList extends Component{
           by {comment.author}
 
           <div className='vote-buttons'>
-            <Button bsStyle='success' onClick={() => this.props.voteComment({commentid: comment.id, vote: 1})}>
+            <Button bsStyle='success' onClick={() => this.props.sendCommentVote({commentid: comment.id, vote: 1})}>
               <img className='thumb-img' src={require('../img/thumb_up.svg')} alt='Down Vote'/>
             </Button>
 
             &nbsp;{comment.voteScore}&nbsp;
 
-            <Button bsStyle='danger' onClick={() => this.props.voteComment({commentid: comment.id, vote: -1})}>
+            <Button bsStyle='danger' onClick={() => this.props.sendCommentVote({commentid: comment.id, vote: -1})}>
               <img className='thumb-img' src={require('../img/thumb_down.svg')} alt='Up Vote'/>
             </Button>
 
@@ -148,8 +147,8 @@ function mapStateToProps({post, comment, categories}, ownProps){
 
 function mapDispachToProps(dispatch){
   return{
-    createComment: (data) => dispatch(addComment(data)),
-    voteComment: (data) => dispatch(voteComment(data)),
+    sendComment: (data) => dispatch(sendComment(data)),
+    sendCommentVote: (data) => dispatch(sendCommentVote(data)),
   }
 }
 

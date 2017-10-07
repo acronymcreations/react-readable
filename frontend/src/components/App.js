@@ -14,6 +14,7 @@ import {Route, withRouter, Link} from 'react-router-dom'
 class App extends Component {
 
   componentDidMount() {
+    // API.postVote('6ni6ok3ym7mf1p33lnez', -1).then((data) => console.log('data', data))
     if(this.props.posts.length === 0){
       API.getPosts().then( (posts) => {
         for(var i in posts){

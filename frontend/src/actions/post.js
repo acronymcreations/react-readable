@@ -1,3 +1,4 @@
+import * as API from './../utils/api'
 export const ADD_POST = 'ADD_POST'
 export const REMOVE_POST = 'REMOVE_POST'
 export const EDIT_POST = 'EDIT_POST'
@@ -22,5 +23,13 @@ export function votePost({postid, vote}){
     type: VOTE_POST,
     postid,
     vote
+  }
+}
+
+export function sendPostVote({postid, vote}){
+  return function(dispatch){
+    return API.postVote(postid, vote).then(
+      (data) => dispatch(votePost({postid, vote}))
+    )
   }
 }

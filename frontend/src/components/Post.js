@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {votePost} from '../actions/post'
+import {sendPostVote} from '../actions/post'
 import CommentList from './CommentList'
 import { Button } from 'react-bootstrap';
 
@@ -19,11 +19,11 @@ class Post extends Component{
           {this.props.body}
         </div>
         <div className='vote-buttons'>
-          <Button bsStyle='success' onClick={() => this.props.votePost({postid: this.props.id, vote: 1})}>
+          <Button bsStyle='success' onClick={() => this.props.sendPostVote({postid: this.props.id, vote: 1})}>
             <img className='thumb-img' src={require('../img/thumb_up.svg')} alt='Up Vote'/>
           </Button>
           &nbsp;{this.props.voteScore}&nbsp;
-          <Button bsStyle='danger' onClick={() => this.props.votePost({postid: this.props.id, vote: -1})}>
+          <Button bsStyle='danger' onClick={() => this.props.sendPostVote({postid: this.props.id, vote: -1})}>
             <img className='thumb-img' src={require('../img/thumb_down.svg')} alt='Down Vote'/>
           </Button>
         </div>
@@ -53,7 +53,7 @@ function mapStateToProps({post, comment, categories}, ownProps){
 
 function mapDispachToProps(dispatch){
   return{
-    votePost: (data) => dispatch(votePost(data)),
+    sendPostVote: (data) => dispatch(sendPostVote(data)),
   }
 }
 
