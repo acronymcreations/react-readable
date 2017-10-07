@@ -1,30 +1,27 @@
 import React, {Component} from 'react'
 import Modal from 'react-modal'
 // import Loading from 'react-loading'
+import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
-import {votePost} from '../actions/post'
-import {voteComment} from '../actions/comment'
+import {addComment, voteComment} from '../actions/comment'
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Col } from 'react-bootstrap';
 
 class CommentList extends Component{
   state = {
-    newCommentOpen: true,
+    newCommentOpen: false,
     author: '',
     comment: '',
     allowComment: false
   }
 
   componentDidMount() {
-    console.log(this.inputNode)
-    // this.inputNode.value;
+
   }
 
   validateAuthor() {
     const length = this.state.author.length;
     if (length >= 4)
       return 'success';
-    else if (length > 3)
-      return 'warning';
     else if (length > 0)
       return 'error';
   }
@@ -33,8 +30,6 @@ class CommentList extends Component{
     const length = this.state.comment.length;
     if (length >= 10)
       return 'success'
-    else if(length >= 5)
-      return 'warning'
     else if (length > 0)
       return 'error'
   }
@@ -44,6 +39,21 @@ class CommentList extends Component{
       return false
     else
       return true
+  }
+
+  submitComment() {
+    this.props.createComment({
+      author: this.state.author,
+      body: this.state.comment,
+      deleted: false,
+      id: API.generateID(),
+      parentDeleted: false,
+      parentId: this.props.parentId,
+      timestamp: Date.now(),
+      voteScore: 1
+    })
+    this.setState({newCommentOpen: false, author: '', comment: ''})
+
   }
 
   render() {
@@ -113,7 +123,7 @@ class CommentList extends Component{
             </FormGroup>
 
             <Col md={10}>
-              <Button disabled={this.allowComment()} bsStyle='primary' type="submit">
+              <Button disabled={this.allowComment()} bsStyle='primary' onClick={() => this.submitComment()}>
                 Submit
               </Button>
             </Col>
@@ -138,7 +148,7 @@ function mapStateToProps({post, comment, categories}, ownProps){
 
 function mapDispachToProps(dispatch){
   return{
-    votePost: (data) => dispatch(votePost(data)),
+    createComment: (data) => dispatch(addComment(data)),
     voteComment: (data) => dispatch(voteComment(data)),
   }
 }
