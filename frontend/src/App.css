@@ -60,26 +60,29 @@
 
 .overlay {
   position: fixed;
-  top: 0px;
+  top: 150px;
   left: 0px;
   right: 0px;
   bottom: 0px;
   background-color: rgba(200, 200, 200, .75);
 }
 
-.modal {
-  position: absolute;
-  top: 60px;
-  left: 200px;
-  right: 200px;
-  bottom: 40px;
-  border: 3px solid rgb(204, 204, 204);
+.modal-background {
+  position: fixed;
+  top: 50%;
+  right: 10%;
+  bottom: auto;
+  left: 50%;
+  transform: translate(-50%,-50%);
+	border: 10px solid rgb(204, 204, 204);
   background: rgb(255, 255, 255);
-  overflow: auto;
-  border-radius: 4px;
-  outline: none;
-  padding: 20px;
-  border-radius: 3px;
-  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
-  min-width: 500px;
+	padding-top: 0px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+}
+
+.childDiv {
+  max-height: 90vh;
+  max-width: 90vw;
 }

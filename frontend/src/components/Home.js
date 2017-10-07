@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import PostList from './PostList'
 // import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
-import Loading from 'react-loading'
+// import Loading from 'react-loading'
 // import {addPost, addComment, addCategory} from '../actions'
+import { Button } from 'react-bootstrap';
 
 
 class Home extends Component {
@@ -18,16 +19,22 @@ class Home extends Component {
         <h2>Posts</h2>
         {this.state.sort_by === 'date' && (
           <div>
-            Sort by: Date <button className='btn btn-default' onClick={() => this.setState({sort_by: 'score'})}>
-              Popularity
-            </button>
+            <h5>
+              Sort by: Date&nbsp;
+              <Button bsStyle='default' onClick={() => this.setState({sort_by: 'score'})}>
+                Popularity
+              </Button>
+            </h5>
           </div>
         )}
         {this.state.sort_by === 'score' && (
           <div>
-            Sort by: <button className='btn btn-default' onClick={() => this.setState({sort_by: 'date'})}>
-              Date
-            </button> Popularity
+            <h5>
+              Sort by:&nbsp;
+              <Button bsStyle='default' onClick={() => this.setState({sort_by: 'date'})}>
+                Date
+              </Button> Popularity
+            </h5>
           </div>
         )}
         <PostList sort_by={this.state.sort_by} category={this.props.category}/>

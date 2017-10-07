@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {votePost} from '../actions/post'
+import { Button } from 'react-bootstrap';
 
 function sortByDate (a, b) {
   if(a['timestamp'] === b['timestamp']){
@@ -46,16 +47,21 @@ class PostList extends Component{
         {this.props.posts.map( p => {
           return (
             <li key={p.id}>
-              <button className='btn btn-default' onClick={() => this.votePost(p.id, 1)}>
-                <img className='thumb-img' src={require('../img/thumb_up.svg')} alt='Down Vote'/>
-              </button>
-              &#8195;{p.voteScore}&#8195;
-              <button className='btn btn-default' onClick={() => this.votePost(p.id, -1)}>
-                <img className='thumb-img' src={require('../img/thumb_down.svg')} alt='Up Vote'/>
-              </button>
+
+              <Button bsStyle='success' onClick={() => this.votePost(p.id, 1)}>
+                <img className='thumb-img' src={require('../img/thumb_up.svg')} alt='Up Vote'/>
+              </Button>
+
+              &nbsp;{p.voteScore}&nbsp;
+
+              <Button bsStyle='danger' onClick={() => this.votePost(p.id, -1)}>
+                <img className='thumb-img' src={require('../img/thumb_down.svg')} alt='Down Vote'/>
+              </Button>
+              &nbsp;
               <Link to={{pathname: `/${p.category}/${p.id}`}}>
                 <strong>{p.title}</strong>
               </Link> by {p.author}&#8195;
+
               ({this.getCommentCount(p.id)}
               <img src={require('../img/chat-bubble.png')} alt='' width='15'/>)
             </li>
