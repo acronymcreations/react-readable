@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import {Link, Route} from 'react-router-dom'
 import PostList from './PostList'
+import NewPostModal from './NewPostModal'
 // import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
 // import Loading from 'react-loading'
@@ -11,6 +12,11 @@ import { Button } from 'react-bootstrap';
 class Home extends Component {
   state = {
     sort_by: 'date',
+    newPostOpen: 'true',
+    author: '',
+    title: '',
+    body: '',
+    allowPost: false
   }
 
   render() {
@@ -38,6 +44,7 @@ class Home extends Component {
           </div>
         )}
         <PostList sort_by={this.state.sort_by} category={this.props.category}/>
+        <NewPostModal category={this.props.category}/>
       </div>
     );
   }

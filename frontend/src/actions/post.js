@@ -18,6 +18,15 @@ export function addPost({author, title, body, category, id, timestamp, voteScore
   }
 }
 
+export function sendPost({author, title, body, category}){
+  let timestamp = Date.now()
+  return function(dispatch){
+    return API.addPost(author, title, body, category, timestamp).then(
+      (id) => dispatch(addPost({author, title, body, category, id, timestamp, voteScore: 1, deleted: false}))
+    )
+  }
+}
+
 export function votePost({postid, vote}){
   return{
     type: VOTE_POST,

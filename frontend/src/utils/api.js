@@ -14,6 +14,16 @@ export const getPosts = () => {
     .then((data) => JSON.parse(data))
 }
 
+export const addPost = (author, body, title, category, timestamp) => {
+  const u = `${URL}posts`
+  let id = generateID()
+  return fetch(u, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({author, body, title, id, category, timestamp})
+  }).then(data => id)
+}
+
 export const postVote = (postid, vote) => {
   const u = `${URL}posts/${postid}`
   let option = vote === 1 ? 'upVote' : 'downVote'
@@ -31,13 +41,14 @@ export const getComments = (id) => {
     .then((data) => JSON.parse(data))
 }
 
-export const addComment = (author, body, id, parentId, timestamp) => {
+export const addComment = (author, body, parentId, timestamp) => {
   const u = `${URL}comments`
+  let id = generateID()
   return fetch(u, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify({author, body, id, parentId, timestamp})
-  }).then(data => data)
+  }).then(data => id)
 }
 
 export const commentVote = (commentid, vote) => {

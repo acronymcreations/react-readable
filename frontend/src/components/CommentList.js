@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import Modal from 'react-modal'
 // import Loading from 'react-loading'
-import * as API from './../utils/api.js'
+// import * as API from './../utils/api.js'
 import {connect} from 'react-redux'
 import {sendComment, sendCommentVote} from '../actions/comment'
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Col } from 'react-bootstrap';
+import * as validator from './../utils/validators'
 
 class CommentList extends Component{
   state = {
@@ -18,24 +19,9 @@ class CommentList extends Component{
 
   }
 
-  validateAuthor() {
-    const length = this.state.author.length;
-    if (length >= 4)
-      return 'success';
-    else if (length > 0)
-      return 'error';
-  }
-
-  validateComment() {
-    const length = this.state.comment.length;
-    if (length >= 10)
-      return 'success'
-    else if (length > 0)
-      return 'error'
-  }
-
   allowComment(){
-    if(this.validateAuthor() === 'success' && this.validateComment() === 'success')
+    if(validator.validateAuthor(this.state.author) === 'success' &&
+        validator.validateComment(this.state.comment) === 'success')
       return false
     else
       return true
@@ -45,12 +31,7 @@ class CommentList extends Component{
     this.props.sendComment({
       author: this.state.author,
       body: this.state.comment,
-      deleted: false,
-      id: API.generateID(),
-      parentDeleted: false,
       parentId: this.props.parentId,
-      timestamp: Date.now(),
-      voteScore: 1
     })
     this.setState({newCommentOpen: false, author: '', comment: ''})
   }
@@ -94,7 +75,7 @@ class CommentList extends Component{
           <h3>Add Comment</h3>
 
           <Col md={6}>
-            <FormGroup controlId="formAuthor" validationState={this.validateAuthor()}>
+            <FormGroup controlId="formAuthor" validationState={validator.validateAuthor(this.state.author)}>
               <ControlLabel>Author</ControlLabel>
               <FormControl
                 inputRef={node => this.inputNode = node}
@@ -110,7 +91,7 @@ class CommentList extends Component{
 
           <Col md={12}>
 
-            <FormGroup validationState={this.validateComment()}>
+            <FormGroup validationState={validator.validateComment(this.state.comment)}>
               <ControlLabel>Comment</ControlLabel>
               <FormControl
                 componentClass="textarea"
