@@ -14,7 +14,7 @@ export const getPosts = () => {
     .then((data) => JSON.parse(data))
 }
 
-export const addPost = (author, body, title, category, timestamp) => {
+export const addPost = (author, title, body, category, timestamp) => {
   const u = `${URL}posts`
   let id = generateID()
   return fetch(u, {

@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Col } from 'react-bootstrap';
 import {connect} from 'react-redux'
+import {sendPost} from '../actions/post'
 import Modal from 'react-modal'
 import * as validator from './../utils/validators'
-import * as API from './../utils/api'
 
 class NewPostModal extends Component{
   state = {
@@ -12,10 +12,16 @@ class NewPostModal extends Component{
     title: '',
     body: '',
     allowPost: false,
-    category: ''
+    category: this.props.category
   }
 
   submitPost(){
+    this.props.sendPost({
+      author: this.state.author,
+      title: this.state.title,
+      body: this.state.body,
+      category: this.state.category
+    })
     this.setState(
       {
         newPostOpen: false,
@@ -63,8 +69,8 @@ class NewPostModal extends Component{
             <FormGroup controlId='selectCategory'>
               <ControlLabel>Category</ControlLabel>
               {this.props.category === undefined && (
-                <FormControl componentClass="select" placeholder="select" onChange={(i) => this.setState({category: i})}>
-                  <option selected disabled value='other'>Select One...</option>
+                <FormControl componentClass="select" defaultValue='other' onChange={(i) => this.setState({category: document.getElementById('selectCategory').value})}>
+                  <option disabled value='other'>Select One...</option>
                   {categoriesList}
                 </FormControl>
               )}
@@ -143,8 +149,10 @@ function mapStateToProps({post, comment, categories}, ownProps){
   })
 }
 
-function mapDispachToProps(){
-
+function mapDispachToProps(dispatch){
+  return{
+    sendPost: (data) => dispatch(sendPost(data)),
+  }
 }
 
 export default connect(mapStateToProps, mapDispachToProps)(NewPostModal);

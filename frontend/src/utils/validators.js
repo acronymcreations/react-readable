@@ -24,7 +24,7 @@ export function validateTitle(title) {
 
 export function validateBody(body) {
   const length = body.length;
-  if (length >= 30)
+  if (length >= 3)
     return 'success'
   else if (length > 0)
     return 'error'
