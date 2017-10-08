@@ -83,7 +83,6 @@ class App extends Component {
 }
 
 function mapStateToProps({post, comment, categories}, ownProps){
-  // console.log('ownProps app', ownProps)
   return {
     posts: post,
     comments: comment,

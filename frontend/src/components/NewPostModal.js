@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Col } from 'react-bootstrap';
+import {connect} from 'react-redux'
 import Modal from 'react-modal'
 import * as validator from './../utils/validators'
+import * as API from './../utils/api'
 
 class NewPostModal extends Component{
   state = {
@@ -9,7 +11,8 @@ class NewPostModal extends Component{
     author: '',
     title: '',
     body: '',
-    allowPost: false
+    allowPost: false,
+    category: ''
   }
 
   submitPost(){
@@ -24,7 +27,8 @@ class NewPostModal extends Component{
   }
 
   allowPost(){
-    if(validator.validateAuthor(this.state.author) === 'success' &&
+    if(this.state.category &&
+        validator.validateAuthor(this.state.author) === 'success' &&
         validator.validateTitle(this.state.title) === 'success' &&
         validator.validateBody(this.state.body) === 'success')
       return false
@@ -33,6 +37,14 @@ class NewPostModal extends Component{
   }
 
   render(){
+    var categoriesList = []
+    categoriesList.push(
+      this.props.categories.map(c => {
+        return(
+          <option value={c}>{c}</option>
+        )
+      })
+    )
     return(
       <div>
         <Button bsStyle='primary' onClick={() => this.setState({newPostOpen: true})}>
@@ -47,7 +59,22 @@ class NewPostModal extends Component{
         <form className='childDev'>
           <h3>Add Post</h3>
 
-          <Col md={6}>
+          <Col md={12}>
+            <FormGroup controlId='selectCategory'>
+              <ControlLabel>Category</ControlLabel>
+              {this.props.category === undefined && (
+                <FormControl componentClass="select" placeholder="select" onChange={(i) => this.setState({category: i})}>
+                  <option selected disabled value='other'>Select One...</option>
+                  {categoriesList}
+                </FormControl>
+              )}
+              {this.props.category !== undefined && (
+                <div>{this.props.category}</div>
+              )}
+            </FormGroup>
+          </Col>
+
+          <Col md={12}>
             <FormGroup controlId="formAuthor" validationState={validator.validateAuthor(this.state.author)}>
               <ControlLabel>Author</ControlLabel>
               <FormControl
@@ -89,17 +116,9 @@ class NewPostModal extends Component{
               <FormControl.Feedback />
               <HelpBlock>30 character min</HelpBlock>
             </FormGroup>
-            {this.props.category === undefined && (
-              <FormGroup>
-                <ControlLabel>Category</ControlLabel>
-                <FormControl componentClass="select" placeholder="select">
-                  <option disabled selected value="other">Select One</option>
-                  <option value="select">Udacity</option>
-                  <option value="other">React</option>
-                  <option value="other">Redux</option>
-                </FormControl>
-              </FormGroup>
-            )}
+
+
+
             <Col md={10}>
               <Button disabled={this.allowPost()} bsStyle='primary' onClick={() => this.submitPost()}>
                 Submit
@@ -118,4 +137,14 @@ class NewPostModal extends Component{
   }
 }
 
-export default NewPostModal;
+function mapStateToProps({post, comment, categories}, ownProps){
+  return({
+    categories: categories.map((i) => i.name)
+  })
+}
+
+function mapDispachToProps(){
+
+}
+
+export default connect(mapStateToProps, mapDispachToProps)(NewPostModal);
