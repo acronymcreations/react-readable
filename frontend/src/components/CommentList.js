@@ -22,9 +22,9 @@ class CommentList extends Component{
   allowComment(){
     if(validator.validateAuthor(this.state.author) === 'success' &&
         validator.validateComment(this.state.comment) === 'success')
-      return false
-    else
       return true
+    else
+      return false
   }
 
   submitComment() {
@@ -90,27 +90,29 @@ class CommentList extends Component{
           </Col>
 
           <Col md={12}>
+          {validator.validateAuthor(this.state.author) === 'success' && (
+              <FormGroup validationState={validator.validateComment(this.state.comment)}>
+                <ControlLabel>Comment</ControlLabel>
+                <FormControl
+                  componentClass="textarea"
+                  value={this.state.comment}
+                  onChange={(i) => this.setState({comment: i.target.value})}
+                />
+                <FormControl.Feedback />
+                <HelpBlock>10 character min</HelpBlock>
+              </FormGroup>
+          )}
+              <Col md={10}>
+                {this.allowComment() && (
+                  <Button bsStyle='primary' onClick={() => this.submitComment()}>
+                    Submit
+                  </Button>
+                )}
+              </Col>
 
-            <FormGroup validationState={validator.validateComment(this.state.comment)}>
-              <ControlLabel>Comment</ControlLabel>
-              <FormControl
-                componentClass="textarea"
-                value={this.state.comment}
-                onChange={(i) => this.setState({comment: i.target.value})}
-              />
-              <FormControl.Feedback />
-              <HelpBlock>10 character min</HelpBlock>
-            </FormGroup>
-
-            <Col md={10}>
-              <Button disabled={this.allowComment()} bsStyle='primary' onClick={() => this.submitComment()}>
-                Submit
+              <Button bsStyle='default' onClick={() => this.setState({newCommentOpen: false, author: '', comment: ''})}>
+                Cancel
               </Button>
-            </Col>
-
-            <Button bsStyle='default' onClick={() => this.setState({newCommentOpen: false, author: '', comment: ''})}>
-              Cancel
-            </Button>
 
           </Col>
         </form>

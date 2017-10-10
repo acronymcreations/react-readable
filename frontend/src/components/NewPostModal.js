@@ -11,7 +11,6 @@ class NewPostModal extends Component{
     author: '',
     title: '',
     body: '',
-    allowPost: false,
     category: this.props.category
   }
 
@@ -37,9 +36,9 @@ class NewPostModal extends Component{
         validator.validateAuthor(this.state.author) === 'success' &&
         validator.validateTitle(this.state.title) === 'success' &&
         validator.validateBody(this.state.body) === 'success')
-      return false
-    else
       return true
+    else
+      return false
   }
 
   render(){
@@ -80,61 +79,62 @@ class NewPostModal extends Component{
             </FormGroup>
           </Col>
 
-          <Col md={12}>
-            <FormGroup controlId="formAuthor" validationState={validator.validateAuthor(this.state.author)}>
-              <ControlLabel>Author</ControlLabel>
-              <FormControl
-                inputRef={node => this.inputNode = node}
-                type="text"
-                placeholder='anon'
-                value={this.state.author}
-                onChange={(i) => this.setState({author: i.target.value})}
-              />
-              <FormControl.Feedback />
-              <HelpBlock>4 character min</HelpBlock>
-            </FormGroup>
-          </Col>
-
-          <Col md={12}>
-            <FormGroup controlId="formAuthor" validationState={validator.validateTitle(this.state.title)}>
-              <ControlLabel>Title</ControlLabel>
-              <FormControl
-                inputRef={node => this.inputNode = node}
-                type="text"
-                placeholder='anon'
-                value={this.state.title}
-                onChange={(i) => this.setState({title: i.target.value})}
-              />
-              <FormControl.Feedback />
-              <HelpBlock>8 character min</HelpBlock>
-            </FormGroup>
-          </Col>
-
-          <Col md={12}>
-
-            <FormGroup validationState={validator.validateBody(this.state.body)}>
-              <ControlLabel>Post</ControlLabel>
-              <FormControl
-                componentClass="textarea"
-                value={this.state.body}
-                onChange={(i) => this.setState({body: i.target.value})}
-              />
-              <FormControl.Feedback />
-              <HelpBlock>30 character min</HelpBlock>
-            </FormGroup>
-
-
-
-            <Col md={10}>
-              <Button disabled={this.allowPost()} bsStyle='primary' onClick={() => this.submitPost()}>
-                Submit
-              </Button>
+          {this.state.category && (
+            <Col md={12}>
+              <FormGroup validationState={validator.validateAuthor(this.state.author)}>
+                <ControlLabel>Author</ControlLabel>
+                <FormControl
+                  inputRef={node => this.inputNode = node}
+                  type="text"
+                  placeholder='anon'
+                  value={this.state.author}
+                  onChange={(i) => this.setState({author: i.target.value})}
+                />
+                <FormControl.Feedback />
+                <HelpBlock>4 character min</HelpBlock>
+              </FormGroup>
             </Col>
+          )}
 
+          {validator.validateAuthor(this.state.author) === 'success' && (
+            <Col md={12}>
+              <FormGroup validationState={validator.validateTitle(this.state.title)}>
+                <ControlLabel>Title</ControlLabel>
+                <FormControl
+                  inputRef={node => this.inputNode = node}
+                  type="text"
+                  value={this.state.title}
+                  onChange={(i) => this.setState({title: i.target.value})}
+                />
+                <FormControl.Feedback />
+                <HelpBlock>8 character min</HelpBlock>
+              </FormGroup>
+            </Col>
+          )}
+
+          <Col md={12}>
+            {validator.validateTitle(this.state.title) === 'success' && (
+              <FormGroup validationState={validator.validateBody(this.state.body)}>
+                <ControlLabel>Post</ControlLabel>
+                <FormControl
+                  componentClass="textarea"
+                  value={this.state.body}
+                  onChange={(i) => this.setState({body: i.target.value})}
+                />
+                <FormControl.Feedback />
+                <HelpBlock>30 character min</HelpBlock>
+              </FormGroup>
+            )}
+            <Col md={10}>
+              {this.allowPost() && (
+                  <Button bsStyle='primary' onClick={() => this.submitPost()}>
+                    Submit
+                  </Button>
+              )}
+            </Col>
             <Button bsStyle='default' onClick={() => this.setState({newPostOpen: false, author: '', title: '', body: '',})}>
               Cancel
             </Button>
-
           </Col>
         </form>
         </Modal>

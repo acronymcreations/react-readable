@@ -22,7 +22,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h2>Posts</h2>
+        <h2 className='text-center'>Posts</h2>
         {this.state.sort_by === 'date' && (
           <div>
             <h5>

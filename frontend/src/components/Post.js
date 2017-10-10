@@ -3,7 +3,8 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {sendPostVote} from '../actions/post'
 import CommentList from './CommentList'
-import { Button } from 'react-bootstrap';
+import EditDeleteButtons from './EditDeleteButtons'
+import {Button} from 'react-bootstrap'
 
 class Post extends Component{
   state = {
@@ -13,8 +14,9 @@ class Post extends Component{
   render() {
     return (
       <div>
-        <div className="post-title">{this.props.title}</div>
+        <h2 className="post-title">{this.props.title}</h2>
         <div className='post-author'>By {this.props.author}</div>
+        <EditDeleteButtons/>
         <div className='post-body'>
           {this.props.body}
         </div>
