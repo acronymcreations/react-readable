@@ -24,6 +24,24 @@ export const addPost = (author, title, body, category, timestamp) => {
   }).then(data => id)
 }
 
+export const deletePost = (postid) => {
+  const u = `${URL}posts/${postid}`
+  return fetch(u, {
+    method: 'DELETE',
+    headers: headers,
+    body: JSON.stringify({postid})
+  }).then(data => data)
+}
+
+export const editPost = (postid, title, body) => {
+  const u = `${URL}posts/${postid}`
+  return fetch(u, {
+    method: 'PUT',
+    headers: headers,
+    body: JSON.stringify({title, body})
+  }).then(data => data)
+}
+
 export const postVote = (postid, vote) => {
   const u = `${URL}posts/${postid}`
   let option = vote === 1 ? 'upVote' : 'downVote'

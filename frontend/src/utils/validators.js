@@ -1,9 +1,9 @@
 export function validateAuthor(author) {
-  const length = author.length;
-  if (length >= 4)
+  if(author && author.length >= 4)
     return 'success';
-  else if (length > 0)
+  else if(author && author.length > 0)
     return 'error';
+
 }
 
 export function validateComment(comment) {
