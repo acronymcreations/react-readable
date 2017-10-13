@@ -12,30 +12,33 @@ import {addComment} from '../actions/comment'
 import {Route, withRouter, Link} from 'react-router-dom'
 
 class App extends Component {
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    if(this.props.posts.length === 0){
-      API.getPosts().then( (posts) => {
-        for(var i in posts){
-          this.props.createPost(posts[i])
-          API.getComments(posts[i].id).then( (comments) => {
-            for(var j in comments){
-              this.props.createComment(comments[j])
-            }
-          })
-        }
-      })
-    }
-    if(this.props.categories.length === 0){
-      console.log('called API')
-      API.getCategories().then( (cat) => {
-        let list = cat['categories']
-        for(var i in list){
-          this.props.createCategory(list[i])
-        }
-      })
-    }
+      if(this.props.posts.length === 0){
+        API.getPosts().then( (posts) => {
+          for(var i in posts){
+            this.props.createPost(posts[i])
+            API.getComments(posts[i].id).then( (comments) => {
+              for(var j in comments){
+                this.props.createComment(comments[j])
+              }
+            })
+          }
+        })
+      }
+      if(this.props.categories.length === 0){
+        console.log('called API')
+        API.getCategories().then( (cat) => {
+          let list = cat['categories']
+          for(var i in list){
+            this.props.createCategory(list[i])
+          }
+        })
+      }
   }
+
+
 
   render() {
     // console.log(this.props)
@@ -58,13 +61,7 @@ class App extends Component {
         )
       })
     )
-    categoriesList.push(
-      <span key='new'>
-        <Link to={{pathname: '/'}}>
-          +
-        </Link>&#8195;
-      </span>
-    )
+    
     return (
       <div>
         <div className="App-header">
