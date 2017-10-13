@@ -1,60 +1,52 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {OverlayTrigger, Tooltip, Glyphicon, Button, ButtonGroup, Modal} from 'react-bootstrap'
 import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
-import {sendDeletePost, sendEditPost} from './../actions/post'
-import {connect} from 'react-redux'
-import {Redirect, withRouter} from 'react-router-dom'
+import {sendDeleteComment, sendEditComment} from './../actions/comment'
 import * as validator from './../utils/validators'
 
-class EditDeleteButtons extends Component{
+class CommentEditDeleteButtons extends Component{
   constructor(props) {
     super(props);
 
     this.state = {
       editModal: false,
-      title: this.props.title,
-      title_initial: this.props.title,
       body: this.props.body,
       body_intial: this.props.body,
       deleteModal: false,
-      deleteRedirect: false
     }
   }
 
-  deletePost(postid){
-    this.props.sendDeletePost({postid})
-    this.setState({deleteModal: false, deleteRedirect: true})
-  }
-
-  editPost(postid, title, body){
-    this.props.sendEditPost({postid, title, body})
-    this.setState({editModal: false})
+  deleteComment(commentid){
+    this.setState({deleteModal: false})
+    this.props.sendDeleteComment({commentid})
   }
 
   allowEdit(){
-    if(validator.validateTitle(this.state.title) === 'success' &&
-      validator.validateBody(this.state.body) === 'success')
+    if(validator.validateComment(this.state.body) === 'success')
       return true
     else
       return false
   }
 
+  editComment(commentid, body){
+    this.setState({editModal: false, body: this.state.body_intial})
+    this.props.sendEditComment({commentid, body})
+  }
+
   render(){
     const editTooltip = (
       <Tooltip placement="bottom" className="in" id='editTooltip'>
-        Edit Post
+        Edit Comment
       </Tooltip>
     )
     const deleteTooltip = (
       <Tooltip placement="bottom" className="in" id='deleteTooltip'>
-        Delete Post
+        Delete Comment
       </Tooltip>
     )
     return(
-      <span>
-        {this.state.deleteRedirect && (
-          <Redirect to={`/${this.props.category}`}/>
-        )}
+      <div>
         <ButtonGroup>
           <OverlayTrigger placement="bottom" overlay={editTooltip}>
             <Button onClick={() => this.setState({editModal: true})}>
@@ -70,51 +62,35 @@ class EditDeleteButtons extends Component{
 
         <Modal show={this.state.deleteModal} onHide={() => this.setState({deleteModal: false})}>
           <Modal.Header closeButton>
-            <Modal.Title>Delete Post</Modal.Title>
+            <Modal.Title>Delete Comment</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure you want to delete this post?
+            Are you sure you want to delete this comment?
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle='danger' onClick={() => this.deletePost(this.props.postid)}>Delete</Button>
+            <Button bsStyle='danger' onClick={() => this.deleteComment(this.props.commentid)}>Delete</Button>
             <Button onClick={() => this.setState({deleteModal: false})}>Cancel</Button>
           </Modal.Footer>
         </Modal>
 
-        <Modal show={this.state.editModal} onHide={() => this.setState({editModal: false, title: this.state.title_initial, body: this.state.body_intial})}>
+        <Modal show={this.state.editModal} onHide={() => this.setState({editModal: false, body: this.state.body_intial})}>
           <Modal.Header closeButton>
-            <Modal.Title>Edit Post</Modal.Title>
+            <Modal.Title>Edit Comment</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <FormGroup>
-              <ControlLabel>Category</ControlLabel>
-              <div>{this.props.category}</div>
-            </FormGroup>
-            <FormGroup validationState={validator.validateAuthor(this.state.author)}>
               <ControlLabel>Author</ControlLabel>
               <FormControl
                 disabled
                 type="text"
-                placeholder='anon'
-                value={this.state.author}
+                value={this.props.author}
                 onChange={(i) => this.setState({author: i.target.value})}
               />
               <FormControl.Feedback />
               <HelpBlock>4 character min</HelpBlock>
             </FormGroup>
 
-            <FormGroup validationState={validator.validateTitle(this.state.title)}>
-              <ControlLabel>Title</ControlLabel>
-                <FormControl
-                  type="text"
-                  value={this.state.title}
-                  onChange={(i) => this.setState({title: i.target.value})}
-                />
-              <FormControl.Feedback />
-              <HelpBlock>8 character min</HelpBlock>
-            </FormGroup>
-
-            <FormGroup validationState={validator.validateBody(this.state.body)}>
+            <FormGroup validationState={validator.validateComment(this.state.body)}>
               <ControlLabel>Post</ControlLabel>
                 <FormControl
                   componentClass="textarea"
@@ -122,50 +98,45 @@ class EditDeleteButtons extends Component{
                   onChange={(i) => this.setState({body: i.target.value})}
                 />
               <FormControl.Feedback />
-              <HelpBlock>30 character min</HelpBlock>
+              <HelpBlock>10 character min</HelpBlock>
             </FormGroup>
 
           </Modal.Body>
           <Modal.Footer>
             {this.allowEdit() && (
-                <Button bsStyle='primary' onClick={() => this.editPost(this.props.id, this.state.title, this.state.body)}>Update</Button>
+                <Button bsStyle='primary' onClick={() => this.editComment(this.props.commentid, this.state.body)}>Update</Button>
             )}
             <Button onClick={() => this.setState({editModal: false, title: this.state.title_initial, body: this.state.body_intial})}>Cancel</Button>
           </Modal.Footer>
         </Modal>
-      </span>
+      </div>
     )
   }
 }
 
 function mapStateToProps({post, comment, categories}, ownProps){
-  let p = post.filter(p => p.id === ownProps.postid)
-  if(p.length > 0){
+  let c = comment.filter(c => c.id === ownProps.commentid)
+  if(c.length > 0){
     return {
-      title: p[0].title,
-      author: p[0].author,
-      body: p[0].body,
-      voteScore: p[0].voteScore,
-      id: p[0].id,
-      category: p[0].category
+      author: c[0].author,
+      body: c[0].body,
+      id: c[0].id,
     }
   }
   else {
     return {
-      title: 'Post not found',
       author: '',
       body: '',
-      voteScore: 0,
       id: '',
     }
   }
 }
 
-function mapDispachToProps(dispatch) {
+function mapDispachToProps(dispatch){
   return{
-    sendDeletePost: (data) => dispatch(sendDeletePost(data)),
-    sendEditPost: (data) => dispatch(sendEditPost(data)),
+    sendDeleteComment: (data) => dispatch(sendDeleteComment(data)),
+    sendEditComment: (data) => dispatch(sendEditComment(data)),
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispachToProps)(EditDeleteButtons));
+export default connect(mapStateToProps, mapDispachToProps)(CommentEditDeleteButtons);

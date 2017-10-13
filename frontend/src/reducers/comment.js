@@ -1,4 +1,4 @@
-import {ADD_COMMENT, VOTE_COMMENT} from '../actions/comment'
+import {ADD_COMMENT, VOTE_COMMENT, EDIT_COMMENT, DELETE_COMMENT} from '../actions/comment'
 
 function comment(state = [], action){
   switch (action.type){
@@ -22,6 +22,26 @@ function comment(state = [], action){
         return c
       })
       return score_array
+
+    case DELETE_COMMENT:
+      const delete_id = action.commentid
+      var delete_array = []
+      delete_array = state.filter(c => c.id !== delete_id)
+      return delete_array
+
+    case EDIT_COMMENT:
+      const edit_id = action.commentid
+      const edit_body = action.body
+      const edit_timestamp = action.timestamp
+      var edit_array = []
+      edit_array = state.map(c => {
+        if(c.id === edit_id){
+          c.body = edit_body
+          c.timestamp = edit_timestamp
+        }
+        return c
+      })
+      return edit_array
 
     default:
       return state

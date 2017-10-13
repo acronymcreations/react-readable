@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {sendPostVote} from '../actions/post'
 import { Button } from 'react-bootstrap';
+import EditDeleteButtons from './EditDeleteButtons'
 
 function sortByDate (a, b) {
   if(a['timestamp'] === b['timestamp']){
@@ -62,8 +63,11 @@ class PostList extends Component{
                 <strong>{p.title}</strong>
               </Link> by {p.author}&#8195;
 
+
               ({this.getCommentCount(p.id)}
               <img src={require('../img/chat-bubble.png')} alt='' width='15'/>)
+              &#8195;
+              <EditDeleteButtons postid={p.id}/>&#8195;
             </li>
           )
         })}

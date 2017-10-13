@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import Modal from 'react-modal'
-// import Loading from 'react-loading'
-// import * as API from './../utils/api.js'
+import CommentEditDeleteButtons from './CommentEditDeleteButtons'
 import {connect} from 'react-redux'
 import {sendComment, sendCommentVote} from '../actions/comment'
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Col } from 'react-bootstrap';
@@ -43,6 +42,7 @@ class CommentList extends Component{
       commentList.push(
         <div key={comment.id} className='post-comment'>
           {comment.body}<br/>
+          <CommentEditDeleteButtons commentid={comment.id}/>
           by {comment.author}
 
           <div className='vote-buttons'>
@@ -62,7 +62,7 @@ class CommentList extends Component{
     }
     return (
       <div>
-        <div className='post-comments-title'>Comments:</div>
+        <div className='post-comments-title'>Comments ({commentList.length}):</div>
         {commentList}
         <Button bsStyle='primary' onClick={() => this.setState({newCommentOpen: true})}>New Comment</Button>
         <Modal

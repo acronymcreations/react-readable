@@ -16,7 +16,10 @@ class Post extends Component{
       <div>
         <h2 className="post-title">{this.props.title}</h2>
         <div className='post-author'>By {this.props.author}</div>
-        <EditDeleteButtons postid={this.props.id}/>
+        <div className='text-center'>
+          <EditDeleteButtons postid={this.props.id}/>
+        </div>
+
         <div className='post-body'>
           {this.props.body}
         </div>

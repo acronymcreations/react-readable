@@ -69,6 +69,24 @@ export const addComment = (author, body, parentId, timestamp) => {
   }).then(data => id)
 }
 
+export const editComment = (commentid, body, timestamp) => {
+  const u = `${URL}comments/${commentid}`
+  console.log(u)
+  return fetch(u, {
+    method: 'PUT',
+    headers: headers,
+    body: JSON.stringify({timestamp, body})
+  }).then(data => data)
+}
+
+export const deleteComment = (commentid) => {
+  const u = `${URL}comments/${commentid}`
+  return fetch(u, {
+    method: 'DELETE',
+    headers: headers,
+  }).then(data => data)
+}
+
 export const commentVote = (commentid, vote) => {
   const u = `${URL}comments/${commentid}`
   let option = vote === 1 ? 'upVote' : 'downVote'
